@@ -1,21 +1,20 @@
 <template>
-	<div>
-	  	<!--<div class="list col-sm-12 col-md-6">-->
-        <button class="btn btn-primary" @click="crearTipoEvento">Crear nuevo cliente</button>
-        <!--<div class="list-group">
-        <a v-for="vehiculo in vehiculosList" class="list-group-item clearfix">
-            <span class="col-sm-8">{{vehiculo.Marca}}  {{vehiculo.Modelo}}</span>
-            <div class="master-button-group col-sm-12 col-md-4">
-                <button class="btn btn-default " @click="handleEditarClick(tipoevento)">Editar</button>
-                <button class="btn btn-danger " @click="handleBorrarClick(tipoevento)">Borrar</button>
-            </div>
-        </a>
-        </div>-->
-
-        <!--</div>-->
-        <ClientesDetail @addTipoEvento="cargaListadoClientes" @modifyEvento="onModifyEvento" :api_host="host"></ClientesDetail>
-	</div>
-
+    <div class="master row">
+    <div class="list col-sm-12 col-md-6">
+        <button class="btn btn-primary btn-crear" @click="crearTipoEvento">Crear nuevo cliente</button>
+        <div class="list-group">
+            
+            <a v-for="cliente in clientesList" href="#" class="list-group-item clearfix">
+                {{cliente.Nombre}}  {{cliente.Apellidos}}
+                    <button class="btn btn-default float-right btn-editar" @click="handleEditarClick(tipoevento)">Editar</button>
+                    <button class="btn btn-danger float-right btn-borrar" @click="handleBorrarClick(tipoevento)">Borrar</button>
+                
+            </a>
+            
+        </div>
+    </div>
+    <ClientesDetail @addTipoEvento="cargaListadoClientes" @modifyEvento="onModifyEvento" :api_host="host"></ClientesDetail>
+    </div>
 
 </template>
 

@@ -1,22 +1,21 @@
 <template>
-	<div>
-	  	<!--<div class="list col-sm-12 col-md-6">-->
-        <button class="btn btn-primary" @click="crearTipoEvento">Crear nuevo vehículo</button>
-        <!--<div class="list-group">
-        <a v-for="vehiculo in vehiculosList" class="list-group-item clearfix">
-            <span class="col-sm-8">{{vehiculo.Marca}}  {{vehiculo.Modelo}}</span>
-			<div class="master-button-group col-sm-12 col-md-4">
-				<button class="btn btn-default " @click="handleEditarClick(tipoevento)">Editar</button>
-				<button class="btn btn-danger " @click="handleBorrarClick(tipoevento)">Borrar</button>
-			</div>
-        </a>
-        </div>-->
-
-		<!--</div>-->
-        <VehiculosDetail @addTipoEvento="cargaListadoVehiculos" @modifyEvento="onModifyEvento" :api_host="host"></VehiculosDetail>
-	</div>
-
-
+    <div class="master row">
+    <div class="list col-sm-12 col-md-6">
+        <button class="btn btn-primary btn-crear" @click="crearTipoEvento">Crear nuevo vehículo</button>
+        <div class="list-group">
+            
+            <a v-for="vehiculo in vehiculosList" href="#" class="list-group-item clearfix" v-on:click="selectVehiculo(vehiculo)">
+                {{vehiculo.Marca}}  {{vehiculo.Modelo}}
+                    <button class="btn btn-default float-right btn-editar" @click="handleEditarClick(tipoevento)">Editar</button>
+                    <button class="btn btn-danger float-right btn-borrar" @click="handleBorrarClick(tipoevento)">Borrar</button>
+                
+            </a>
+            
+        </div>
+    </div>
+    <VehiculosDetail @addTipoEvento="cargaListadoVehiculos" @modifyEvento="onModifyEvento" :api_host="host"></VehiculosDetail>
+    </div>
+    
 </template>
 
 <script>
@@ -39,35 +38,20 @@ export default {
         this.cargaListadoVehiculos();
     },
     methods: {
-        selectTipoEvento: function(tipoEvento) {
-            // debugger;
-        //this.seen=true;
-        //this.$emit('selectEntrada', entrada);
+        selectVehiculo: function(vehiculo) {
+        debugger;
+        
+        this.$emit('show-form', vehiculo);
         },
         cargaListadoVehiculos(){
             debugger;
 
             let _this = this;
             _this.vehiculosList.length = 0;
-            
-            $.ajax({
-                url: _this.host,
-                type: 'GET',
-                // el tipo de información que se espera de respuesta
-                dataType: 'json',
-                // código a ejecutar si la petición es satisfactoria;
-                // la respuesta es pasada como argumento a la función
-                success: function(data) {
-                  debugger;
-                  _this.vehiculosList = data;
-                },
-                error:function(xhr, status) {
-                   debugger;
-                },
-                // código a ejecutar sin importar si la petición falló o no
-                complete: function(xhr, status) {
-                  //alert('Petición realizada');
-                }
+            axios.get(this.host).then((response) => {
+              _this.vehiculosList = response.data;
+            }).catch((error) => {
+              //Vue.$emit('show-modal', error.message, error.stack)
             });
         },
         crearTipoEvento(){
@@ -126,4 +110,14 @@ export default {
 	width: 100%;
 	margin: 5px 0 5px 0;
 }
+
+.btn-editar {
+    margin-left: 15px;
+}
+
+.btn-borrar {
+    
+}
+
+
 </style>

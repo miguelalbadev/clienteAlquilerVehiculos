@@ -1,11 +1,11 @@
 
 <template>
-<div class="detail col-sm-12 col-md-6" v-if="tipoevento">
+<div class="detail col-sm-12 col-md-6" v-if="vehiculo">
   <form>
-    <h3 v-if="tipoevento.Id" class="text-center">Modificando Tipo de Evento</h3>
-    <h3 v-else class="text-center">Creando Tipo de Evento</h3>
+    <h3 v-if="vehiculo.Id" class="text-center">Modificando Vehículo</h3>
+    <h3 v-else class="text-center">Creando Vehículo</h3>
 
-    <div class="form-group">
+    <!--<div class="form-group">
       <label for="nombre-tipo-evento">Nombre: </label>
       <input type="text" class="form-control" id="nombre-tipo-evento" v-model="tipoevento.Nombre" />
     </div>
@@ -20,11 +20,11 @@
     <div class="form-group">
       <label for="descripcion-tipo-evento">Descripción: </label>
       <input type="text" class="form-control" id="descripcion-tipo-evento" v-model="tipoevento.Descripcion" />
-    </div>
+    </div>-->
 
 
     <div class="group-btn">
-      <button v-if="tipoevento.Id" class="btn btn-success" @click="handleModificarEvento($event)">Modificar</button>
+      <button v-if="vehiculo.Id" class="btn btn-success" @click="handleModificarEvento($event)">Modificar</button>
       <button v-else class="btn btn-success" @click="handleCrearTipoEvento($event)">Crear</button>
       <button class="btn btn-secondary" @click="handleCancelar($event)">Cancelar</button>
     </div>
@@ -41,19 +41,19 @@ export default {
   
   data() {
     return {
-      tipoevento: null,
+      vehiculo: null,
       host: this.api_host
     };
   },
 
   created() {
     let _this = this;
-    Vue.$on('show-form', (tipoevento) => {
-      _this.tipoevento = tipoevento ? tipoevento : {
+    this.$parent.$on('show-form', (vehiculo) => {
+      _this.vehiculo = vehiculo ? vehiculo : {
         Nombre: '',
-        Categoria: '',
-        Criticidad: '',
-        Descripcion: ''
+        Apellidos: '',
+        Dni: '',
+        Domicilio: ''
       };
     });
 
