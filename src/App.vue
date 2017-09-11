@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <modal></modal>
+    <tab-master></tab-master>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import Modal from './components/Modal.vue';
+import TabMaster from './components/TabMaster.vue';
 
 export default {
   name: 'app',
   components: {
-    Hello
+    Modal, TabMaster
   }
 }
 </script>
