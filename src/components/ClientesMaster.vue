@@ -13,7 +13,7 @@
             
         </div>
     </div>
-    <ClientesDetail @addTipoEvento="cargaListadoClientes" @modifyEvento="onModifyEvento" :api_host="host"></ClientesDetail>
+    <ClientesDetail @addCliente="cargaListadoClientes" @modifyEvento="onModifyEvento" :api_host="host"></ClientesDetail>
     </div>
 
 </template>

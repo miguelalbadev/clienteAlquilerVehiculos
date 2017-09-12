@@ -46,8 +46,8 @@
     </div>
 
     <div class="group-btn">
-      <button v-if="cliente.Id" class="btn btn-success" @click="handleModificarEvento($event)">Modificar</button>
-      <button v-else class="btn btn-success" @click="handleCrearTipoEvento($event)">Crear</button>
+      <button v-if="cliente.Id" class="btn btn-success" @click="handleModificarCliente($event)">Modificar</button>
+      <button v-else class="btn btn-success" @click="handleCrearCliente($event)">Crear</button>
       <button class="btn btn-secondary btn-cancelar" @click="handleCancelar($event)">Cancelar</button>
     </div>
   </form>
@@ -95,66 +95,57 @@ export default {
   },
 
   methods: {
-    /* SERVER REQUESTS */
-    updateEvento() {
-
-    },
-
-    createEvento() {
-
-    },
-
+        
     /* HANDLE SELF EVENTS */
-    handleModificarEvento(event) {
-        // debugger;
-        event.preventDefault();
-        var tipo = this.tipoevento;
-        axios.put(this.host + '/' + tipo.Id, {
-            Id: tipo.Id,
-            Nombre: tipo.Nombre,
-            Categoria: tipo.Categoria,
-            Criticidad: tipo.Criticidad,
-            Descripcion: tipo.Descripcion
-        },{headers:{"Content-Type":"application/json"}})
-          .then(response=> {
-            Vue.$emit('show-modal', 'Tipo de Evento modificado', 'El Tipo de Evento ha sido modificado con éxito');
-            this.$emit('addTipoEvento');
-          }).catch((error) => {
-            // debugger;
-              //Vue.$emit('show-modal', error.message, error.stack)
-          });
-
-        this.tipoevento = null;
+    handleModificarCliente(event) {
+        
+      debugger;
+      event.preventDefault();
+      var cliente = this.cliente;
+           
+      axios.put(this.host + '/' + cliente.Id, cliente)
+        .then(response=> {
+          
+          Vue.$emit('show-modal', 'Cliente modificado', 'El cliente ha sido modificado con éxito');
+          this.$emit('addCliente');
+        }).catch((error) => {
+          
+          Vue.$emit('show-modal', error.message, error.stack)
+        });
     },
 
-    handleCrearTipoEvento(event) {
+    handleCrearCliente(event) {
       // debugger;
       event.preventDefault();
-      var tipo = this.tipoevento;
-      var res = new RegExp('^[0-5]{1}$');
-      var found = tipo.Criticidad.match(res);
+      var cliente = this.cliente;
+      //var res = new RegExp('^[0-5]{1}$');
+      //var found = tipo.Criticidad.match(res);
 
-      if(tipo.Nombre==""||tipo.Categoria==""||tipo.Criticidad==""||tipo.Descripcion==""){
+      if(cliente.Nombre==""||cliente.Apellidos==""||cliente.Dni==""||cliente.Domicilio==""||cliente.Telefono==""||cliente.FechaNacimiento==""||cliente.FechaCarnet==""||cliente.PuntosCarnet==""){
         Vue.$emit('show-modal', 'Guardado no permitido', 'Debe rellenar todos los campos antes de poder guardar. Por favor, revíselo');
       }
-      else if(found==null){
+      /*else if(found==null){
         Vue.$emit('show-modal', 'Guardado no permitido', 'El campo Criticidad debe ser un valor numérico entre 0 y 5');
-      }
+      }*/
       else{
         axios.post(this.host, {
-            Nombre: tipo.Nombre,
-            Categoria: tipo.Categoria,
-            Criticidad: tipo.Criticidad,
-            Descripcion: tipo.Descripcion
+            Nombre: cliente.Nombre,
+            Apellidos: cliente.Apellidos,
+            Dni: cliente.Dni,
+            Domicilio: cliente.Domicilio,
+            Telefono:cliente.Telefono,
+            FechaNacimiento:cliente.FechaNacimiento,
+            FechaCarnet:cliente.FechaCarnet,
+            PuntosCarnet:cliente.PuntosCarnet
           })
           .then(response=> {
-            Vue.$emit('show-modal', 'Tipo de evento creado', 'El nuevo tipo de evento ha sido creado con éxito');
-            this.$emit('addTipoEvento');
+            Vue.$emit('show-modal', 'Cliente creado', 'El nuevo cliente ha sido creado con éxito');
+            this.$emit('addCliente');
           });
 
       }
-        
-      this.tipoevento = null;
+      
+      
 
     },
 

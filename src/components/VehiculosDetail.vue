@@ -106,12 +106,15 @@ export default {
         TipoCombustible: '',
         TarifaDiaria: ''
       };
-      if(vehiculo.AireAcondicionado==true){
+      if(vehiculo!=null){
+        if(vehiculo.AireAcondicionado==true){
         _this.aire = 'Si';
+        }
+        else{
+          _this.aire = 'No';
+        }
       }
-      else{
-        _this.aire = 'No';
-      }
+      
     });
 
     Vue.$on('edit-vehiculo', (vehiculo) => {
@@ -124,42 +127,37 @@ export default {
   },
 
   methods: {
-    /* SERVER REQUESTS */
-    updateEvento() {
-
-    },
-
-    createEvento() {
-
-    },
-
+    
     /* HANDLE SELF EVENTS */
     handleModificarVehiculo(event) {
-        // debugger;
+        debugger;
         event.preventDefault();
-        var tipo = this.tipoevento;
-        axios.put(this.host + '/' + tipo.Id, {
-            Id: tipo.Id,
-            Nombre: tipo.Nombre,
-            Categoria: tipo.Categoria,
-            Criticidad: tipo.Criticidad,
-            Descripcion: tipo.Descripcion
-        },{headers:{"Content-Type":"application/json"}})
+        var vehiculo = this.vehiculo;
+        var aire;
+        if(vehiculo.AireAcondicionado=='Si'){
+          aire = true;
+        }
+        else if(vehiculo.AireAcondicionado=='No'){
+          aire = false;
+        }
+        axios.put(this.host + '/' + vehiculo.Id, vehiculo)
           .then(response=> {
-            Vue.$emit('show-modal', 'Tipo de Evento modificado', 'El Tipo de Evento ha sido modificado con éxito');
-            this.$emit('addTipoEvento');
+            
+            Vue.$emit('show-modal', 'Vehículo modificado', 'El vehículo ha sido modificado con éxito');
+            this.$emit('addVehiculo');
           }).catch((error) => {
-            // debugger;
-              //Vue.$emit('show-modal', error.message, error.stack)
+            
+            Vue.$emit('show-modal', error.message, error.stack)
           });
 
-        this.tipoevento = null;
+        
     },
 
     handleCrearVehiculo(event) {
       debugger;
       event.preventDefault();
       var vehiculo = this.vehiculo;
+      var aire = this.aire;
       //var res = new RegExp('^[0-5]{1}$');
       //var found = tipo.Criticidad.match(res);
 
@@ -171,12 +169,12 @@ export default {
         Vue.$emit('show-modal', 'Guardado no permitido', 'El campo Criticidad debe ser un valor numérico entre 0 y 5');
       }*/
       else{
-        var aire;
-        if(vehiculo.AireAcondicionado=='Si'){
-          aire = true;
+        
+        if(aire=='Si'){
+          vehiculo.AireAcondicionado=true;
         }
-        else if(vehiculo.AireAcondicionado=='No'){
-          aire = false;
+        else if(aire=='No'){
+          vehiculo.AireAcondicionado=false;
         }
         axios.post(this.host, {
             Marca: vehiculo.Marca,
@@ -185,7 +183,7 @@ export default {
             TipoCombustible: vehiculo.TipoCombustible,
             NumeroPlazas: vehiculo.NumeroPlazas,
             TipoCambio: vehiculo.TipoCambio,
-            AireAcondicionado: aire,
+            AireAcondicionado: vehiculo.AireAcondicionado,
             TarifaDiaria: vehiculo.TarifaDiaria
           })
           .then(response=> {
@@ -195,7 +193,7 @@ export default {
 
       }
         
-      this.tipoevento = null;
+      
 
     },
 
