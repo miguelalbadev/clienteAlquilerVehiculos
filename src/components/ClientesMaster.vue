@@ -1,13 +1,13 @@
 <template>
     <div class="master row">
     <div class="list col-sm-12 col-md-6">
-        <button class="btn btn-primary btn-crear" @click="crearTipoEvento">Crear nuevo cliente</button>
+        <button class="btn btn-primary btn-crear" @click="crearCliente">Crear nuevo cliente</button>
         <div class="list-group">
             
-            <a v-for="cliente in clientesList" href="#" class="list-group-item clearfix">
+            <a v-for="cliente in clientesList" href="#" class="list-group-item clearfix" v-on:click="selectCliente(cliente)">
                 {{cliente.Nombre}}  {{cliente.Apellidos}}
-                    <button class="btn btn-default float-right btn-editar" @click="handleEditarClick(tipoevento)">Editar</button>
-                    <button class="btn btn-danger float-right btn-borrar" @click="handleBorrarClick(tipoevento)">Borrar</button>
+                    <button class="btn btn-default float-right btn-editar" @click="handleEditarClick(cliente)">Editar</button>
+                    <button class="btn btn-danger float-right btn-borrar" @click="handleBorrarClick(cliente)">Borrar</button>
                 
             </a>
             
@@ -38,10 +38,9 @@ export default {
         this.cargaListadoClientes();
     },
     methods: {
-        selectTipoEvento: function(tipoEvento) {
-            // debugger;
-        //this.seen=true;
-        //this.$emit('selectEntrada', entrada);
+        selectCliente: function(cliente) {
+        debugger;
+        this.$emit('show-form', cliente);
         },
         cargaListadoClientes(){
             // debugger;
@@ -54,18 +53,18 @@ export default {
               //Vue.$emit('show-modal', error.message, error.stack)
             });
         },
-        crearTipoEvento(){
-            Vue.$emit('show-form', null);
+        crearCliente(){
+            this.$emit('show-form', null);
         },
-        handleEditarClick(tipoevento){
-            Vue.$emit('edit-tipoevento',tipoevento);
+        handleEditarClick(cliente){
+            Vue.$emit('edit-cliente',cliente);
         },
-        handleBorrarClick(tipoevento){
+        handleBorrarClick(cliente){
 
-             axios.delete(this.host + '/' + tipoevento.Id)
+             axios.delete(this.host + '/' + cliente.Id)
                 .then((res) => {
-                  Vue.$emit('show-modal', 'Tipo de Evento eliminado', 'El Tipo de Evento ha sido eliminado con éxito');
-                  this.cargaListadoTipoEventos();
+                  Vue.$emit('show-modal', 'Cliente eliminado', 'El Cliente ha sido eliminado con éxito');
+                  this.cargaListadoClientes();
                   Vue.$emit('close-form');
              })
 

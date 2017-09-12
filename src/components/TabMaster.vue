@@ -3,10 +3,10 @@
   <h2>Alquiler de Vehículos</h2>
       <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-expanded="true">Vehículos</a>
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-expanded="true" @click="selectTab(tab)">Vehículos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile">Clientes</a>
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" @click="selectTab(tab)">Clientes</a>
       </li>
       
     </ul>
@@ -47,9 +47,8 @@
 
     methods: {
       selectTab(selected_tab) {
-        this.tabs.forEach((tab) => {
-          tab.activated = (tab.href == selected_tab.href);
-        });
+        debugger;
+        
         Vue.$emit('close-form');
       }
     }

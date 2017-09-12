@@ -4,29 +4,74 @@
   <form>
     <h3 v-if="vehiculo.Id" class="text-center">Modificando Vehículo</h3>
     <h3 v-else class="text-center">Creando Vehículo</h3>
-
-    <!--<div class="form-group">
-      <label for="nombre-tipo-evento">Nombre: </label>
-      <input type="text" class="form-control" id="nombre-tipo-evento" v-model="tipoevento.Nombre" />
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <b><label for="marca-vehiculo" class="col-form-label">Marca: </label></b>
+        <input type="text" class="form-control" id="marca-vehiculo" v-model="vehiculo.Marca" />
+      </div>
+      <div class="form-group col-md-6">
+        <b><label for="modelo-vehiculo" class="col-form-label">Modelo: </label></b>
+        <input type="text" class="form-control" id="modelo-vehiculo" v-model="vehiculo.Modelo" />
+      </div>
     </div>
-    <div class="form-group">
-      <label for="categoria-tipo-evento">Categoría: </label>
-      <input type="text" class="form-control" id="categoria-tipo-evento" v-model="tipoevento.Categoria" />
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <b><label for="tipo-vehiculo">Tipo de vehículo: </label></b>
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0 form-control" id="inlineFormCustomSelect" v-model="vehiculo.TipoVehiculo">
+          <option disabled value="">Choose...</option>
+          <option>Berlina</option>
+          <option>Compacto</option>
+          <option>Utilitario</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <b><label for="combustible-vehiculo">Tipo de combustible: </label></b>
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0 form-control" id="inlineFormCustomSelect" v-model="vehiculo.TipoCombustible">
+          <option disabled value="">Choose...</option>
+          <option>Gasolina</option>
+          <option>Diesel</option>
+          <option>Eléctrico</option>
+          <option>Híbrido</option>
+        </select>
+      </div>
+      
     </div>
-    <div class="form-group">
-      <label for="criticidad-tipo-evento">Criticidad: </label>
-      <input type="text" class="form-control" id="criticidad-tipo-evento" v-model="tipoevento.Criticidad" />
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <b><label for="cambio-vehiculo">Tipo de cambio: </label></b>
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0 form-control" id="inlineFormCustomSelect" v-model="vehiculo.TipoCambio">
+          <option disabled value="">Choose...</option>
+          <option>Manual</option>
+          <option>Automático</option>
+          
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <b><label for="plazas-vehiculo">Número de plazas: </label></b>
+        <input type="text" class="form-control" id="plazas-vehiculo" v-model="vehiculo.NumeroPlazas" />
+      </div>
+      
     </div>
-    <div class="form-group">
-      <label for="descripcion-tipo-evento">Descripción: </label>
-      <input type="text" class="form-control" id="descripcion-tipo-evento" v-model="tipoevento.Descripcion" />
-    </div>-->
-
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <b><label for="ac-vehiculo">Aire acondicionado: </label></b>
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0 form-control" id="inlineFormCustomSelect" v-model="aire">
+          <option disabled value="">Choose...</option>
+          <option>Si</option>
+          <option>No</option>
+          
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <b><label for="tarifa-vehiculo">Tarifa diaria: </label></b>
+        <input type="text" class="form-control" id="tarifa-vehiculo" v-model="vehiculo.TarifaDiaria" />
+      </div>
+    </div>
 
     <div class="group-btn">
-      <button v-if="vehiculo.Id" class="btn btn-success" @click="handleModificarEvento($event)">Modificar</button>
-      <button v-else class="btn btn-success" @click="handleCrearTipoEvento($event)">Crear</button>
-      <button class="btn btn-secondary" @click="handleCancelar($event)">Cancelar</button>
+      <button v-if="vehiculo.Id" class="btn btn-success" @click="handleModificarVehiculo($event)">Modificar</button>
+      <button v-else class="btn btn-success" @click="handleCrearVehiculo($event)">Crear</button>
+      <button class="btn btn-secondary btn-cancelar" @click="handleCancelar($event)">Cancelar</button>
     </div>
   </form>
 </div>
@@ -42,6 +87,7 @@ export default {
   data() {
     return {
       vehiculo: null,
+      aire: null,
       host: this.api_host
     };
   },
@@ -50,19 +96,30 @@ export default {
     let _this = this;
     this.$parent.$on('show-form', (vehiculo) => {
       _this.vehiculo = vehiculo ? vehiculo : {
-        Nombre: '',
-        Apellidos: '',
-        Dni: '',
-        Domicilio: ''
+        Marca: '',
+        Modelo: '',
+        TipoVehiculo: '',
+        TipoCombustible: '',
+        NumeroPlazas: '',
+        TipoCambio: '',
+        AireAcondicionado: '',
+        TipoCombustible: '',
+        TarifaDiaria: ''
       };
+      if(vehiculo.AireAcondicionado==true){
+        _this.aire = 'Si';
+      }
+      else{
+        _this.aire = 'No';
+      }
     });
 
-    Vue.$on('edit-tipoevento', (tipoevento) => {
-      _this.tipoevento = tipoevento
+    Vue.$on('edit-vehiculo', (vehiculo) => {
+      _this.vehiculo = vehiculo
     });
 
     Vue.$on('close-form', () => {
-      _this.tipoevento = null
+      _this.vehiculo = null
     });
   },
 
@@ -77,7 +134,7 @@ export default {
     },
 
     /* HANDLE SELF EVENTS */
-    handleModificarEvento(event) {
+    handleModificarVehiculo(event) {
         // debugger;
         event.preventDefault();
         var tipo = this.tipoevento;
@@ -99,29 +156,41 @@ export default {
         this.tipoevento = null;
     },
 
-    handleCrearTipoEvento(event) {
-      // debugger;
+    handleCrearVehiculo(event) {
+      debugger;
       event.preventDefault();
-      var tipo = this.tipoevento;
-      var res = new RegExp('^[0-5]{1}$');
-      var found = tipo.Criticidad.match(res);
+      var vehiculo = this.vehiculo;
+      //var res = new RegExp('^[0-5]{1}$');
+      //var found = tipo.Criticidad.match(res);
 
-      if(tipo.Nombre==""||tipo.Categoria==""||tipo.Criticidad==""||tipo.Descripcion==""){
+      if(vehiculo.Marca==""||vehiculo.Modelo==""||vehiculo.TipoVehiculo==""||vehiculo.TipoCombustible==""||vehiculo.NumeroPlazas==""||
+        vehiculo.TipoCambio==""||this.aire==null||vehiculo.TarifaDiaria==""){
         Vue.$emit('show-modal', 'Guardado no permitido', 'Debe rellenar todos los campos antes de poder guardar. Por favor, revíselo');
       }
-      else if(found==null){
+      /*else if(found==null){
         Vue.$emit('show-modal', 'Guardado no permitido', 'El campo Criticidad debe ser un valor numérico entre 0 y 5');
-      }
+      }*/
       else{
+        var aire;
+        if(vehiculo.AireAcondicionado=='Si'){
+          aire = true;
+        }
+        else if(vehiculo.AireAcondicionado=='No'){
+          aire = false;
+        }
         axios.post(this.host, {
-            Nombre: tipo.Nombre,
-            Categoria: tipo.Categoria,
-            Criticidad: tipo.Criticidad,
-            Descripcion: tipo.Descripcion
+            Marca: vehiculo.Marca,
+            Modelo: vehiculo.Modelo,
+            TipoVehiculo: vehiculo.TipoVehiculo,
+            TipoCombustible: vehiculo.TipoCombustible,
+            NumeroPlazas: vehiculo.NumeroPlazas,
+            TipoCambio: vehiculo.TipoCambio,
+            AireAcondicionado: aire,
+            TarifaDiaria: vehiculo.TarifaDiaria
           })
           .then(response=> {
-            Vue.$emit('show-modal', 'Tipo de evento creado', 'El nuevo tipo de evento ha sido creado con éxito');
-            this.$emit('addTipoEvento');
+            Vue.$emit('show-modal', 'Vehículo creado', 'El nuevo vehículo ha sido creado con éxito');
+            this.$emit('addVehiculo');
           });
 
       }
@@ -132,11 +201,14 @@ export default {
 
     handleCancelar(event) {
       event.preventDefault();
-      this.tipoevento = null;
+      this.vehiculo = null;
     }
   }
 }
 </script>
 
 <style>
+.btn-cancelar{
+  margin-left: 45px;
+}
 </style>

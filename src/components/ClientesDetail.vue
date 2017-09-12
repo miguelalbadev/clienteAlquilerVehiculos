@@ -1,32 +1,54 @@
 
 <template>
-<div class="detail col-sm-12 col-md-6" v-if="tipoevento">
+<div class="detail col-sm-12 col-md-6" v-if="cliente">
   <form>
-    <h3 v-if="tipoevento.Id" class="text-center">Modificando Tipo de Evento</h3>
-    <h3 v-else class="text-center">Creando Tipo de Evento</h3>
-
-    <div class="form-group">
-      <label for="nombre-tipo-evento">Nombre: </label>
-      <input type="text" class="form-control" id="nombre-tipo-evento" v-model="tipoevento.Nombre" />
+    <h3 v-if="cliente.Id" class="text-center">Modificando Cliente</h3>
+    <h3 v-else class="text-center">Creando Cliente</h3>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <b><label for="nombre-cliente" class="col-form-label">Nombre: </label></b>
+        <input type="text" class="form-control" id="nombre-cliente" v-model="cliente.Nombre" />
+      </div>
+      <div class="form-group col-md-6">
+        <b><label for="apellidos-cliente" class="col-form-label">Apellidos: </label></b>
+        <input type="text" class="form-control" id="apellidos-cliente" v-model="cliente.Apellidos" />
+      </div>
     </div>
-    <div class="form-group">
-      <label for="categoria-tipo-evento">Categoría: </label>
-      <input type="text" class="form-control" id="categoria-tipo-evento" v-model="tipoevento.Categoria" />
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <b><label for="dni-cliente">Dni: </label></b>
+        <input type="text" class="form-control" id="dni-cliente" v-model="cliente.Dni" />
+      </div>
+      <div class="form-group col-md-6">
+        <b><label for="domicilio-cliente">Domicilio: </label></b>
+        <input type="text" class="form-control" id="domicilio-cliente" v-model="cliente.Domicilio" />
+      </div>
     </div>
-    <div class="form-group">
-      <label for="criticidad-tipo-evento">Criticidad: </label>
-      <input type="text" class="form-control" id="criticidad-tipo-evento" v-model="tipoevento.Criticidad" />
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <b><label for="telefono-cliente">Teléfono: </label></b>
+        <input type="text" class="form-control" id="telefono-cliente" v-model="cliente.Telefono" />
+      </div>
+      <div class="form-group col-md-6">
+        <b><label for="fnac-cliente">Fecha de nacimiento: </label></b>
+        <input type="datetime-local" class="form-control" id="fnac-cliente" v-model="cliente.FechaNacimiento" />
+      </div>
     </div>
-    <div class="form-group">
-      <label for="descripcion-tipo-evento">Descripción: </label>
-      <input type="text" class="form-control" id="descripcion-tipo-evento" v-model="tipoevento.Descripcion" />
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <b><label for="fcarnet-cliente">Fecha de carné: </label></b>
+        <input type="datetime-local" class="form-control" id="fcarnet-cliente" v-model="cliente.FechaCarnet" />
+      </div>
+      <div class="form-group col-md-6">
+        <b><label for="puntos-cliente">Puntos de carné: </label></b>
+        <input type="text" class="form-control" id="puntos-cliente" v-model="cliente.PuntosCarnet" />
+      </div>
     </div>
-
 
     <div class="group-btn">
-      <button v-if="tipoevento.Id" class="btn btn-success" @click="handleModificarEvento($event)">Modificar</button>
+      <button v-if="cliente.Id" class="btn btn-success" @click="handleModificarEvento($event)">Modificar</button>
       <button v-else class="btn btn-success" @click="handleCrearTipoEvento($event)">Crear</button>
-      <button class="btn btn-secondary" @click="handleCancelar($event)">Cancelar</button>
+      <button class="btn btn-secondary btn-cancelar" @click="handleCancelar($event)">Cancelar</button>
     </div>
   </form>
 </div>
@@ -41,28 +63,34 @@ export default {
   
   data() {
     return {
-      tipoevento: null,
+      cliente: null,
       host: this.api_host
     };
   },
 
   created() {
+    debugger;
     let _this = this;
-    Vue.$on('show-form', (tipoevento) => {
-      _this.tipoevento = tipoevento ? tipoevento : {
+    this.$parent.$on('show-form', (cliente) => {
+      _this.cliente = cliente ? cliente : {
         Nombre: '',
-        Categoria: '',
-        Criticidad: '',
-        Descripcion: ''
+        Apellidos: '',
+        Dni: '',
+        Domicilio: '',
+        Telefono: '',
+        FechaNacimiento: '',
+        FechaCarnet: '',
+        PuntosCarnet: ''
       };
+      
     });
 
-    Vue.$on('edit-tipoevento', (tipoevento) => {
-      _this.tipoevento = tipoevento
+    Vue.$on('edit-cliente', (cliente) => {
+      _this.cliente = cliente
     });
 
     Vue.$on('close-form', () => {
-      _this.tipoevento = null
+      _this.cliente = null
     });
   },
 
@@ -132,7 +160,7 @@ export default {
 
     handleCancelar(event) {
       event.preventDefault();
-      this.tipoevento = null;
+      this.cliente = null;
     }
   }
 }

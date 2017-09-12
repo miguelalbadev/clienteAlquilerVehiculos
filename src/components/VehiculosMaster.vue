@@ -1,19 +1,19 @@
 <template>
     <div class="master row">
     <div class="list col-sm-12 col-md-6">
-        <button class="btn btn-primary btn-crear" @click="crearTipoEvento">Crear nuevo vehículo</button>
+        <button class="btn btn-primary btn-crear" @click="crearVehiculo">Crear nuevo vehículo</button>
         <div class="list-group">
             
             <a v-for="vehiculo in vehiculosList" href="#" class="list-group-item clearfix" v-on:click="selectVehiculo(vehiculo)">
                 {{vehiculo.Marca}}  {{vehiculo.Modelo}}
-                    <button class="btn btn-default float-right btn-editar" @click="handleEditarClick(tipoevento)">Editar</button>
-                    <button class="btn btn-danger float-right btn-borrar" @click="handleBorrarClick(tipoevento)">Borrar</button>
+                    <button class="btn btn-default float-right btn-editar" @click="handleEditarClick(vehiculo)">Editar</button>
+                    <button class="btn btn-danger float-right btn-borrar" @click="handleBorrarClick(vehiculo)">Borrar</button>
                 
             </a>
             
         </div>
     </div>
-    <VehiculosDetail @addTipoEvento="cargaListadoVehiculos" @modifyEvento="onModifyEvento" :api_host="host"></VehiculosDetail>
+    <VehiculosDetail @addVehiculo="cargaListadoVehiculos" @modifyEvento="onModifyEvento" :api_host="host"></VehiculosDetail>
     </div>
     
 </template>
@@ -54,18 +54,18 @@ export default {
               //Vue.$emit('show-modal', error.message, error.stack)
             });
         },
-        crearTipoEvento(){
-            Vue.$emit('show-form', null);
+        crearVehiculo(){
+            this.$emit('show-form', null);
         },
-        handleEditarClick(tipoevento){
-            Vue.$emit('edit-tipoevento',tipoevento);
+        handleEditarClick(vehiculo){
+            Vue.$emit('edit-vehiculo',vehiculo);
         },
-        handleBorrarClick(tipoevento){
+        handleBorrarClick(vehiculo){
 
-             axios.delete(this.host + '/' + tipoevento.Id)
+             axios.delete(this.host + '/' + vehiculo.Id)
                 .then((res) => {
-                  Vue.$emit('show-modal', 'Tipo de Evento eliminado', 'El Tipo de Evento ha sido eliminado con éxito');
-                  this.cargaListadoTipoEventos();
+                  Vue.$emit('show-modal', 'Vehículo eliminado', 'El vehículo ha sido eliminado con éxito');
+                  this.cargaListadoVehiculos();
                   Vue.$emit('close-form');
              })
 
