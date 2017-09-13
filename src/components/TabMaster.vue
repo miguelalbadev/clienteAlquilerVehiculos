@@ -1,12 +1,17 @@
 <template>
   <div>
   <h2>Alquiler de Vehículos</h2>
+
+      
       <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-expanded="true" @click="selectTab(tab)">Vehículos</a>
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-expanded="true" @click="selectTab()">Vehículos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" @click="selectTab(tab)">Clientes</a>
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" @click="selectTab()">Clientes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="reservas-tab" data-toggle="tab" href="#reservas" role="tab" aria-controls="reservas" @click="selectTab()">Reservas</a>
       </li>
       
     </ul>
@@ -16,6 +21,9 @@
       </div>
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <ClientesMaster></ClientesMaster>
+      </div>
+      <div class="tab-pane fade" id="reservas" role="tabpanel" aria-labelledby="reservas-tab">
+        <ReservasMaster></ReservasMaster>
       </div>
       
     </div>
@@ -27,14 +35,15 @@
 
   import VehiculosMaster from './VehiculosMaster.vue';
   import ClientesMaster from './ClientesMaster.vue';
-
+  import ReservasMaster from './ReservasMaster.vue';
 
   export default {
     name: 'tab-master',
     components: {
       Tab,
       VehiculosMaster,
-      ClientesMaster
+      ClientesMaster,
+      ReservasMaster
     },
 
     data() {
@@ -46,7 +55,7 @@
     },
 
     methods: {
-      selectTab(selected_tab) {
+      selectTab() {
         debugger;
         
         Vue.$emit('close-form');
