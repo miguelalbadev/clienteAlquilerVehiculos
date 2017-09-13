@@ -102,8 +102,12 @@ export default {
       debugger;
       event.preventDefault();
       var cliente = this.cliente;
-           
-      axios.put(this.host + '/' + cliente.Id, cliente)
+
+      if(cliente.Nombre==""||cliente.Apellidos==""||cliente.Dni==""||cliente.Domicilio==""||cliente.Telefono==""||cliente.FechaNacimiento==""||cliente.FechaCarnet==""||cliente.PuntosCarnet==""){
+        Vue.$emit('show-modal', 'Guardado no permitido', 'Debe rellenar todos los campos antes de poder modificar el cliente. Por favor, revíselo');
+      }    
+      else{
+        axios.put(this.host + '/' + cliente.Id, cliente)
         .then(response=> {
           
           Vue.$emit('show-modal', 'Cliente modificado', 'El cliente ha sido modificado con éxito');
@@ -112,21 +116,20 @@ export default {
           
           Vue.$emit('show-modal', error.message, error.stack)
         });
+      } 
+      
     },
 
     handleCrearCliente(event) {
       // debugger;
       event.preventDefault();
       var cliente = this.cliente;
-      //var res = new RegExp('^[0-5]{1}$');
-      //var found = tipo.Criticidad.match(res);
+      
 
       if(cliente.Nombre==""||cliente.Apellidos==""||cliente.Dni==""||cliente.Domicilio==""||cliente.Telefono==""||cliente.FechaNacimiento==""||cliente.FechaCarnet==""||cliente.PuntosCarnet==""){
         Vue.$emit('show-modal', 'Guardado no permitido', 'Debe rellenar todos los campos antes de poder guardar. Por favor, revíselo');
       }
-      /*else if(found==null){
-        Vue.$emit('show-modal', 'Guardado no permitido', 'El campo Criticidad debe ser un valor numérico entre 0 y 5');
-      }*/
+      
       else{
         axios.post(this.host, {
             Nombre: cliente.Nombre,

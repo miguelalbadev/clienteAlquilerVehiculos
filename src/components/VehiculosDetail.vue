@@ -140,7 +140,12 @@ export default {
         else if(vehiculo.AireAcondicionado=='No'){
           aire = false;
         }
-        axios.put(this.host + '/' + vehiculo.Id, vehiculo)
+        if(vehiculo.Marca==""||vehiculo.Modelo==""||vehiculo.TipoVehiculo==""||vehiculo.TipoCombustible==""||vehiculo.NumeroPlazas==""||
+        vehiculo.TipoCambio==""||this.aire==null||vehiculo.TarifaDiaria==""){
+        Vue.$emit('show-modal', 'Guardado no permitido', 'Debe rellenar todos los campos antes de modificar el vehículo. Por favor, revíselo');
+        }
+        else{
+          axios.put(this.host + '/' + vehiculo.Id, vehiculo)
           .then(response=> {
             
             Vue.$emit('show-modal', 'Vehículo modificado', 'El vehículo ha sido modificado con éxito');
@@ -149,8 +154,8 @@ export default {
             
             Vue.$emit('show-modal', error.message, error.stack)
           });
-
-        
+        }
+                
     },
 
     handleCrearVehiculo(event) {
@@ -158,16 +163,12 @@ export default {
       event.preventDefault();
       var vehiculo = this.vehiculo;
       var aire = this.aire;
-      //var res = new RegExp('^[0-5]{1}$');
-      //var found = tipo.Criticidad.match(res);
-
+      
       if(vehiculo.Marca==""||vehiculo.Modelo==""||vehiculo.TipoVehiculo==""||vehiculo.TipoCombustible==""||vehiculo.NumeroPlazas==""||
         vehiculo.TipoCambio==""||this.aire==null||vehiculo.TarifaDiaria==""){
         Vue.$emit('show-modal', 'Guardado no permitido', 'Debe rellenar todos los campos antes de poder guardar. Por favor, revíselo');
       }
-      /*else if(found==null){
-        Vue.$emit('show-modal', 'Guardado no permitido', 'El campo Criticidad debe ser un valor numérico entre 0 y 5');
-      }*/
+     
       else{
         
         if(aire=='Si'){
