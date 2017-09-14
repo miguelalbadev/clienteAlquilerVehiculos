@@ -62,11 +62,17 @@
           
         </select>
       </div>
-      <div class="form-group col-md-6">
-        <b><label for="tarifa-vehiculo">Tarifa diaria: </label></b>
-        <input type="text" class="form-control" id="tarifa-vehiculo" v-model="vehiculo.TarifaDiaria" />
+        <div class="form-group col-md-6">
+          <b><label for="tarifa-vehiculo">Tarifa diaria: </label></b>
+          <input type="text" class="form-control" id="tarifa-vehiculo" v-model="vehiculo.TarifaDiaria" />
+        </div>
       </div>
-    </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <b><label for="id-vehiculo">Código del vehículo: </label></b>
+          <input type="text" class="form-control" id="id-vehiculo" v-model="vehiculo.Id" />
+        </div>
+      </div>
 
     <div class="group-btn">
       <button v-if="vehiculo.Id" class="btn btn-success" @click="handleModificarVehiculo($event)">Modificar</button>

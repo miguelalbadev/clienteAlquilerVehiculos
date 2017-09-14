@@ -44,6 +44,12 @@
         <input type="text" class="form-control" id="puntos-cliente" v-model="cliente.PuntosCarnet" />
       </div>
     </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <b><label for="id-cliente">Código del cliente: </label></b>
+        <input type="text" class="form-control" id="id-cliente" v-model="cliente.Id" />
+      </div>
+    </div>
 
     <div class="group-btn">
       <button v-if="cliente.Id" class="btn btn-success" @click="handleModificarCliente($event)">Modificar</button>

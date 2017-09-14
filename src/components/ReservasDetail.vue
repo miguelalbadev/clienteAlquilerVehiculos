@@ -52,14 +52,14 @@
       <p><u><b>Datos del cliente:</b></u></p>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <b><label for="id-cliente">Id del cliente: </label></b>
+            <b><label for="id-cliente">Código del cliente: </label></b>
             <input type="text" class="form-control" id="id-cliente" v-model="reserva.ClienteId" />
           </div>
         </div>
       <p><u><b>Datos del vehículo:</b></u></p>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <b><label for="id-vehiculo">Id del vehículo: </label></b>
+            <b><label for="id-vehiculo">Código del vehículo: </label></b>
             <input type="text" class="form-control" id="id-vehiculo" v-model="reserva.VehiculoId" />
           </div>
         </div>
